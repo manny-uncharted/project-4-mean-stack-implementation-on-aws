@@ -62,3 +62,100 @@ images/WebConsole.gif
     ![installing mongodb key configurations settings](./img/ubuntu-mongodb-key.png)
 
     ![installing mongodb key configurations settings](./img/ubuntu-mongodb-key2.png)
+
+- Installing MongoDB
+    ```
+    sudo apt-get install -y mongodb
+    ```
+    Note: if you are using the latest version of ubuntu jammy you can use the following command instead of the previous one:
+    ```
+    sudo apt install gnupg
+    echo "deb http://security.ubuntu.com/ubuntu impish-security main" | sudo tee /etc/apt/sources.list.d/impish-security.list
+
+    sudo apt-get update
+
+    sudo apt-get install libssl1.1
+    ```
+    and import the public key using this command
+    ```
+    wget -qO - https://www.mongodb.org/static/pgp/server-5.0.asc | sudo apt-key add -
+    ```
+    and add mongodb to the sources list and then install mongodb
+    ```
+    echo "deb [ arch=amd64,arm64 ] https://repo.mongodb.org/apt/ubuntu focal/mongodb-org/5.0 multiverse" | sudo tee /etc/apt/sources.list.d/mongodb-org-5.0.list
+
+    sudo apt update
+
+    sudo apt install -y mongodb-org
+    ```
+    after installing enable mongodb using the command
+    ```
+    sudo systemctl enable mongod
+    ```
+
+    ![Installing MongoDB](./img/ubuntu-mongodb.png)
+
+- Starting MongoDB
+    ```
+    sudo service mongod start
+    ```
+    Results:
+    ![Starting MongoDB](./img/ubuntu-mongodb-start.png)
+
+- Verifying that the service is up and running
+    ```
+    sudo systemctl status mongod
+    ```
+    Results:
+    ![Verifying that mongodb is running](./img/verify-mongodb-running.png)
+
+- Installing NPM - Node Package Manager
+    ```
+    sudo apt install -y npm
+    ```
+    Results:
+    ![Installing NPM](./img/ubuntu-npm.png)
+
+- Next we need to install body-parser package
+    The ‘body-parser’ package to help us process JSON files passed in requests to the server.
+    ```
+    sudo npm install body-parser
+    ```
+    Results:
+    ![Installing body-parser](./img/ubuntu-body-parser.png)
+
+- creating a folder named books and navigating into the folder
+    ```
+    mkdir books && cd books
+    ```
+    Results:
+    ![creating a folder named books and navigating into the folder](./img/ubuntu-mkdir-books.png)
+
+- In the Books directory, we need to Initialize npm project
+    ```
+    npm init
+    ```
+    Results:
+    ![Initialize npm project](./img/ubuntu-npm-init.png)
+
+- Add a file to it named server.js
+    ```
+    nano server.js
+    ```
+    and then add the following code to the server.js file:
+    ```
+    var express = require('express');
+    var bodyParser = require('body-parser');
+    var app = express();
+    app.use(express.static(__dirname + '/public'));
+    app.use(bodyParser.json());
+    require('./apps/routes')(app);
+    app.set('port', 3300);
+    app.listen(app.get('port'), function() {
+        console.log('Server up: http://localhost:' + app.get('port'));
+    });
+    ```
+    Results:
+    ![Add a file to it named server.js](./img/ubuntu-touch-server.png)
+
+    
